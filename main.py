@@ -1,7 +1,7 @@
 import streamlit as st
 import os
 from phi.agent import Agent
-from phi.model.groq import Groq  # Assuming this is how you import Groq Llama
+from phi.model.google import Gemini
 from phi.tools.serpapi_tools import SerpApiTools
 
 # Initialize page config
@@ -90,7 +90,7 @@ with st.sidebar:
     st.title("Trip Settings")
     
     # User inputs for API keys
-    groq_api_key = st.text_input("🔑 Enter your Groq API Key", type="password")
+    gemini_api_key = st.text_input("🔑 Enter your Gemini API Key", type="password")
     serpapi_key = st.text_input("🔑 Enter your SerpAPI Key", type="password")
     
     destination = st.text_input("🌍 Where would you like to go?", "")
@@ -119,16 +119,16 @@ loading_container = st.empty()
 
 try:
     # Set API keys in environment variables
-    os.environ["GROQ_API_KEY"] = groq_api_key
+    os.environ["GEMINI_API_KEY"] = gemini_api_key
     os.environ["SERP_API_KEY"] = serpapi_key
 
-    # Initialize travel agent with Groq Llama model and SerpAPI
+    # Initialize travel agent with Gemini Llama model and SerpAPI
     travel_agent = Agent(
         name="Travel Planner",
-        model=Groq(id="llama-3.3-70b-versatile"),  # Adjust if necessary based on actual import
+        model=Gemini(id="gemini-1.5-flash"),
         tools=[SerpApiTools()],
         instructions=[
-            "You are a travel planning assistant using Groq Llama.",
+            "You are a travel planning assistant using Gemini Llama.",
             "Help users plan their trips by researching destinations, finding attractions, suggesting accommodations, and providing transportation options.",
             "Give me relevant live Links of each places and hotels you provide by searching on internet (It's important)",
             "Always verify information is current before making recommendations."
